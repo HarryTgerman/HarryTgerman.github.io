@@ -9,7 +9,6 @@ site/
 ├── index.html         portfolio home (3 system cards + experience + competencies)
 ├── resume.html        printable resume (used to generate the PDF)
 ├── deflation.html     deflation.ai architecture deep-dive
-├── openclaw.html      OpenClaw agent harness deep-dive
 ├── miningalpha.html   MiningAlpha multi-agent system deep-dive
 ├── css/style.css      shared styling — dark minimalist, calibrated to tzafon.ai
 └── README.md          this file

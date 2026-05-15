@@ -25,8 +25,8 @@
 
     <p class="lead">
       AI platform engineer building production agentic infrastructure end-to-end.
-      Currently founder of <a href="deflation.html" class="no-underline" style="text-decoration: underline; text-decoration-color: #444;">deflation.ai</a> — a multi-tenant agentic platform with paying customers, running on a hardened production deployment of <a href="openclaw.html" class="no-underline" style="text-decoration: underline; text-decoration-color: #444;">OpenClaw</a> (open-source agent platform) with my plugin extensions and the Agent Builder Playbook I maintain.
-      Stack includes an LLM gateway with per-tenant inference-budget enforcement,
+      Currently founder of <a href="deflation.html" class="no-underline" style="text-decoration: underline; text-decoration-color: #444;">deflation.ai</a> — a multi-tenant agentic platform with paying customers.
+      Stack includes multi-platform agent-harness work (OpenClaw, Hermes, custom builds), an LLM gateway with per-tenant inference-budget enforcement,
       omnichannel agent interfaces, and a custom Model Context Protocol server. Also operating
       <a href="miningalpha.html" class="no-underline" style="text-decoration: underline; text-decoration-color: #444;">MiningAlpha</a> — a hierarchical multi-agent LLM system over a 300+ company evaluation universe.
       Most recently shipped Solidity contracts securing <strong>$1B+ TVL</strong> at Infrared Finance.
@@ -41,7 +41,7 @@
       </header>
       <p class="system-tagline">Multi-tenant agentic platform. End-to-end ownership.</p>
       <ul>
-        <li><strong>Agent platform — OpenClaw (open source) with my production extensions</strong> — hardened deployment across the tenant fleet; author of the Agent Builder Playbook covering plugin architecture, native channel registration, media preprocessing, identity priming, state management, heartbeat design.</li>
+        <li><strong>Multi-platform agent-harness engineering</strong> — production extensions and playbooks across OpenClaw, Hermes, and custom builds: plugin architecture (hooks, channels, routes, tools), native channel registration (email, SMS, voice, IM), media preprocessing, identity priming, state management, heartbeat design.</li>
         <li><strong>Agent compositionality framework</strong> — inheritance-based composition (base primitives → product templates → per-tenant leaves) with deploy-time materialization.</li>
         <li><strong>LLM gateway with per-tenant inference-budget enforcement</strong> — all external API calls proxied; HTTP-protocol-level rejection of out-of-budget calls; tenants hold zero external credentials.</li>
         <li><strong>Omnichannel agent interfaces</strong> unified through tenant-scoped behavioral interaction telemetry.</li>
@@ -68,22 +68,6 @@
       <a href="miningalpha.html" class="system-link">Architecture deep-dive</a>
     </article>
 
-    <article class="system">
-      <header class="system-header">
-        <h3 class="system-title">OpenClaw — production extensions</h3>
-        <span class="system-status">open source · production deployment</span>
-      </header>
-      <p class="system-tagline">Author of the OpenClaw Agent Builder Playbook. Production deployment of the OpenClaw open-source agent platform across the deflation.ai tenant fleet.</p>
-      <ul>
-        <li><strong>OpenClaw Agent Builder Playbook</strong> — 19-section production guide covering architecture, agent design patterns, and platform extensions.</li>
-        <li><strong>Plugin architecture extensions</strong> — hooks, channels, routes, tools; native channel registration for email, SMS, voice, and IM as first-class plugins.</li>
-        <li><strong>Media handling pipeline</strong> — Gemini Flash preprocessing before files reach the agent.</li>
-        <li><strong>Agent design patterns</strong> — identity priming, process rules, context budgeting, state management, heartbeat design, instruction compliance, testing &amp; verification, localization.</li>
-        <li><strong>Battle-tested</strong> across back-office automation, sales pipeline, and bookkeeping agents.</li>
-      </ul>
-      <a href="openclaw.html" class="system-link">My contributions in detail</a>
-    </article>
-
     <h2>Smart Contracts at Scale</h2>
 
     <ul class="system" style="border-top: none; padding-top: 0; margin-top: 0;">
@@ -98,18 +82,22 @@
       <li>
         <span class="role"><strong>deflation.ai</strong> — Founder &amp; Lead Engineer</span>
         <span class="dates">2025 – Present</span>
+        <span class="note">Multi-tenant agentic platform with paying customers. Full-stack ownership from agent harness through gateway, omnichannel interfaces, MCP server, billing, and tenant dashboards.</span>
       </li>
       <li>
         <span class="role"><strong>Infrared Finance</strong> — Smart Contract Engineer</span>
         <span class="dates">Jan 2024 – May 2026</span>
+        <span class="note">Core protocol Solidity securing $1B+ TVL on Berachain mainnet. External audits, MEV-aware design, upgradable patterns.</span>
       </li>
       <li>
         <span class="role"><strong>Y2K Finance</strong> — Smart Contract Engineer</span>
         <span class="dates">Jul 2023 – Dec 2023</span>
+        <span class="note">Solidity engineering on novel DeFi structured-product / risk-tranching primitives.</span>
       </li>
       <li>
         <span class="role"><strong>Gelato Network</strong> — Lead Developer, Uniswap Limit Orders</span>
         <span class="dates">Oct 2021 – Jun 2023</span>
+        <span class="note">Lead dev and product owner for the Uniswap Limit Orders product. End-to-end ownership of contracts, backend, indexer, SDK. Onboarded Pancakeswap and other partner integrations.</span>
       </li>
       <li>
         <span class="role"><strong>Ringier AG</strong> — Full-stack Developer</span>
@@ -119,11 +107,12 @@
       <li>
         <span class="role"><strong>MySoftwareScout GmbH</strong> — CTO &amp; Co-Founder (exited)</span>
         <span class="dates">Apr 2019 – Jul 2020</span>
-        <span class="note">APX Berlin accelerator Q1 2020.</span>
+        <span class="note">APX Berlin accelerator (Germany's #1) Q1 2020. AWS serverless backend, SSR React frontend, CI/CD.</span>
       </li>
       <li>
         <span class="role"><strong>Freelance Developer</strong> — Frankfurt</span>
         <span class="dates">Jun 2018 – Apr 2019</span>
+        <span class="note">Multiple client projects (Terrapin X, CMF Advertising, Arlanis Reply AG) across React, Vue, PHP, React-Native.</span>
       </li>
     </ul>
 
