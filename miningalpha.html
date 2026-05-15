@@ -30,35 +30,84 @@
 
     <h2>Architecture</h2>
 
+    <p>
+      Three layers run together: a deterministic Python orchestrator that resolves the DAG,
+      a fleet of foundation-model calls wrapped in the OpenClaw harness, and exactly one true
+      tool-use agent loop (the Scoper). Every box below is tagged with what it actually is.
+    </p>
+
     <div class="diagram">
 <pre>
-   ┌──────────────────────────────────────────────────────────┐
-   │  PRE-FETCH      auto-discover primary sources             │
-   └────────────────────────────┬─────────────────────────────┘
-                                ▼
-   ┌──────────────────────────────────────────────────────────┐
-   │  T0 · profiling           entity discovery + roster        │
-   └────────────────────────────┬─────────────────────────────┘
-                                ▼
-   ┌──────────────────────────────────────────────────────────┐
-   │  T1 · parallel analyst tier  (per-entity fan-out)          │
-   │                                                          │
-   │     geology · technical · jurisdiction                    │
-   │     financial · management                                │
-   │                                                          │
-   │   each agent:  scope → filter → analyze → self-repair      │
-   └────────────────────────────┬─────────────────────────────┘
-                                ▼
-   ┌──────────────────────────────────────────────────────────┐
-   │  T2 · valuation             synthesis-only                │
-   │  T3 · aggregation           stage-conditional weights,    │
-   │                             gates, cross-dim penalties    │
-   └────────────────────────────┬─────────────────────────────┘
-                                ▼
-                          structured output
-                          + observability
+   LEGEND
+     (code)        deterministic Python — DAG, persistence, API calls, math
+     (LLM)         single inferential call — one round-trip to a foundation model
+     (agent loop)  multi-turn tool-use inside the OpenClaw harness
+
+
+   ┌──────────────────────────────────────────────────────────────────┐
+   │  PRE-FETCH                                                       │
+   │    Serper search · PDF download · EODHD API           (code)     │
+   │    Conference extraction · Gemini Flash · KB-driven   (LLM)      │
+   └─────────────────────────────────┬────────────────────────────────┘
+                                     ▼
+   ┌──────────────────────────────────────────────────────────────────┐
+   │  T0 · PROFILING                                                  │
+   │    CompanyProfileAgent · Sonnet · KB-driven           (LLM)      │
+   │    Geocoding · Nominatim API                          (code)     │
+   └─────────────────────────────────┬────────────────────────────────┘
+                                     ▼
+   ┌──────────────────────────────────────────────────────────────────┐
+   │  T1 · PARALLEL ANALYST TIER   (per-entity fan-out)               │
+   │                                                                  │
+   │   geology · technical · jurisdiction · financial · management    │
+   │                                                                  │
+   │   each agent runs inside the OpenClaw harness:                   │
+   │                                                                  │
+   │     Scoper · KB-driven search · Playwright     (agent loop)      │
+   │        │     ↑ the only true tool-use loop in the pipeline       │
+   │        ▼                                                         │
+   │     Extractor · Gemini Flash Lite · PDF→text   (LLM)             │
+   │        │                                                         │
+   │        ▼                                                         │
+   │     ContentFilter · Gemini 3 Flash             (LLM)             │
+   │        │                                                         │
+   │        ▼                                                         │
+   │     Analyzer · Sonnet / GPT-5 / Gemini         (LLM)             │
+   │        │                                                         │
+   │        ▼                                                         │
+   │     Self-Heal · parse → repair → invariants    (code + LLM)      │
+   └─────────────────────────────────┬────────────────────────────────┘
+                                     ▼
+   ┌──────────────────────────────────────────────────────────────────┐
+   │  T2 · VALUATION   (synthesis-only — no scoper, no filter)        │
+   │    ValAgent · prior outputs + market data             (LLM)      │
+   └─────────────────────────────────┬────────────────────────────────┘
+                                     ▼
+   ┌──────────────────────────────────────────────────────────────────┐
+   │  T3 · AGGREGATION   (synthesis-only)                             │
+   │    AggregatorAgent · KB-driven                        (LLM)      │
+   │    stage-conditional weights · gates · penalties      (code)     │
+   └─────────────────────────────────┬────────────────────────────────┘
+                                     ▼
+   ┌──────────────────────────────────────────────────────────────────┐
+   │  POST-RUN                                                        │
+   │    DB validation · persistence                        (code)     │
+   │    Observability · Sentry · run telemetry             (code)     │
+   └──────────────────────────────────────────────────────────────────┘
 </pre>
     </div>
+
+    <h2>Where the harness sits, what's deterministic, what's a loop</h2>
+
+    <ul>
+      <li><strong>Programmatic (code)</strong> — the DAG orchestrator (which agent runs when, in which tranche, with what dependencies), HTTP/API calls (Serper, EODHD, Nominatim), all persistence (Neon Postgres, Supabase CDN), and the arithmetic in the aggregator (stage-conditional weights, gate enforcement, cross-dimension penalty/bonus math). Deterministic Python end-to-end.</li>
+
+      <li><strong>Inferential (LLM)</strong> — every box tagged <code>(LLM)</code> is a foundation-model call wrapped in the OpenClaw harness. The harness handles structured-output enforcement, fence extraction, cache-aware self-repair (≈1–2% of original call cost via prompt-cache replay), and graceful degradation. Same harness as deflation.ai tenants — different domain, identical reliability primitives.</li>
+
+      <li><strong>Agent loop (multi-turn tool use)</strong> — the Scoper is the only true tool-use agent loop in the pipeline. It autonomously generates KB-driven search queries, follows links (depth 1), MD5-dedups content, falls back to Playwright on CAPTCHA-blocked domains, and decides when it has enough material per agent. Every other stage is a single inferential call with harness-level repair, not an agent loop.</li>
+
+      <li><strong>Self-Heal node</strong> — explicit hybrid: programmatic JSON parsing first, then if that fails, fence extraction (still programmatic), then a cache-aware LLM repair pass (inferential), then invariant validation (programmatic), then a persistence gate (programmatic). Layered cheap-to-expensive recovery.</li>
+    </ul>
 
     <h2>How it works</h2>
 
