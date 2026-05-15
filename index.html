@@ -25,8 +25,8 @@
 
     <p class="lead">
       AI platform engineer building production agentic infrastructure end-to-end.
-      Currently founder of <a href="deflation.html" class="no-underline" style="text-decoration: underline; text-decoration-color: #444;">deflation.ai</a> — a multi-tenant agentic platform with paying customers,
-      built on a proprietary tool-use agent harness, an LLM gateway with per-tenant inference-budget enforcement,
+      Currently founder of <a href="deflation.html" class="no-underline" style="text-decoration: underline; text-decoration-color: #444;">deflation.ai</a> — a multi-tenant agentic platform with paying customers, running on a hardened production deployment of <a href="openclaw.html" class="no-underline" style="text-decoration: underline; text-decoration-color: #444;">OpenClaw</a> (open-source agent platform) with my plugin extensions and the Agent Builder Playbook I maintain.
+      Stack includes an LLM gateway with per-tenant inference-budget enforcement,
       omnichannel agent interfaces, and a custom Model Context Protocol server. Also operating
       <a href="miningalpha.html" class="no-underline" style="text-decoration: underline; text-decoration-color: #444;">MiningAlpha</a> — a hierarchical multi-agent LLM system over a 300+ company evaluation universe.
       Most recently shipped Solidity contracts securing <strong>$1B+ TVL</strong> at Infrared Finance.
@@ -41,7 +41,7 @@
       </header>
       <p class="system-tagline">Multi-tenant agentic platform. End-to-end ownership.</p>
       <ul>
-        <li><strong>Proprietary agent harness</strong> — tool-augmented LLM execution loop with structured-output enforcement, multi-layer reflection-based self-correction, cache-aware repair, graceful degradation.</li>
+        <li><strong>Agent platform — OpenClaw (open source) with my production extensions</strong> — hardened deployment across the tenant fleet; author of the Agent Builder Playbook covering plugin architecture, native channel registration, media preprocessing, identity priming, state management, heartbeat design.</li>
         <li><strong>Agent compositionality framework</strong> — inheritance-based composition (base primitives → product templates → per-tenant leaves) with deploy-time materialization.</li>
         <li><strong>LLM gateway with per-tenant inference-budget enforcement</strong> — all external API calls proxied; HTTP-protocol-level rejection of out-of-budget calls; tenants hold zero external credentials.</li>
         <li><strong>Omnichannel agent interfaces</strong> unified through tenant-scoped behavioral interaction telemetry.</li>
@@ -70,18 +70,18 @@
 
     <article class="system">
       <header class="system-header">
-        <h3 class="system-title">OpenClaw</h3>
-        <span class="system-status">load-bearing</span>
+        <h3 class="system-title">OpenClaw — production extensions</h3>
+        <span class="system-status">open source · production deployment</span>
       </header>
-      <p class="system-tagline">Proprietary agent harness powering every production tenant of deflation.ai.</p>
+      <p class="system-tagline">Author of the OpenClaw Agent Builder Playbook. Production deployment of the OpenClaw open-source agent platform across the deflation.ai tenant fleet.</p>
       <ul>
-        <li><strong>Tool-use execution loop</strong> with bounded retry and structured-output enforcement.</li>
-        <li><strong>Multi-layer reflection-based self-correction</strong> — output validation → fence extraction → cache-aware LLM repair → invariant validation.</li>
-        <li><strong>Cache-aware repair patterns</strong> reducing correction cost to ≈1–2% of original call via prompt-cache replay.</li>
-        <li><strong>Agent-agnostic repair primitives</strong>, non-recursive control flow, graceful degradation — never crashes the bot.</li>
-        <li><strong>Compositionality-aware</strong> — same primitives compose across product templates and per-tenant leaves.</li>
+        <li><strong>OpenClaw Agent Builder Playbook</strong> — 19-section production guide covering architecture, agent design patterns, and platform extensions.</li>
+        <li><strong>Plugin architecture extensions</strong> — hooks, channels, routes, tools; native channel registration for email, SMS, voice, and IM as first-class plugins.</li>
+        <li><strong>Media handling pipeline</strong> — Gemini Flash preprocessing before files reach the agent.</li>
+        <li><strong>Agent design patterns</strong> — identity priming, process rules, context budgeting, state management, heartbeat design, instruction compliance, testing &amp; verification, localization.</li>
+        <li><strong>Battle-tested</strong> across back-office automation, sales pipeline, and bookkeeping agents.</li>
       </ul>
-      <a href="openclaw.html" class="system-link">Harness deep-dive</a>
+      <a href="openclaw.html" class="system-link">My contributions in detail</a>
     </article>
 
     <h2>Smart Contracts at Scale</h2>

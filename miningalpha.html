@@ -69,7 +69,7 @@
 
       <li><strong>DAG-based agent orchestration</strong> with explicit dependency resolution. T0 profiling discovers the entities and management roster. T1 fans out parallel analyst agents per entity (an N-entity company fans out into N×3 per-entity agents + company-level agents). T2 and T3 are synthesis-only — no retrieval, just structured reasoning over upstream agent outputs.</li>
 
-      <li><strong>Reflection-based self-correction</strong> with cache-aware LLM repair: structured-output validation → fence extraction → cache-aware LLM replay → invariant validation → persistence gate. Repair cost ≈1–2% of original call via prompt-cache replay. Same primitives as the <a href="openclaw.html">OpenClaw</a> harness.</li>
+      <li><strong>Reflection-based self-correction</strong> with cache-aware LLM repair: structured-output validation → fence extraction → cache-aware LLM replay → invariant validation → persistence gate. Repair cost ≈1–2% of original call via prompt-cache replay.</li>
 
       <li><strong>Retrieval-augmented agents with gap-targeted retrieval.</strong> Agents pre-extract from auto-discovered primary sources (investor presentations, filings). The retrieval layer then queries <em>only</em> for missing fields — 30–50% retrieval reduction per run. The agents pay the price of what they actually need to learn, nothing more.</li>
 

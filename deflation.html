@@ -61,7 +61,7 @@
     <h2>How it works</h2>
 
     <ul>
-      <li><strong>Proprietary agent harness (OpenClaw).</strong> Tool-augmented LLM execution loop with structured-output enforcement, multi-layer reflection-based self-correction, cache-aware repair, and graceful degradation. Powers every production tenant. <a href="openclaw.html">Deep-dive</a>.</li>
+      <li><strong>Agent platform — OpenClaw (open source) with my production extensions.</strong> Hardened deployment across the tenant fleet. I author and maintain the OpenClaw Agent Builder Playbook — production patterns + plugin architecture (hooks, channels, routes, tools), native channel registration (email, SMS, voice, IM as first-class), media preprocessing, identity priming, state management, heartbeat design. <a href="openclaw.html">My contributions</a>.</li>
 
       <li><strong>Agent compositionality framework.</strong> Inheritance-based agent composition: base primitives → product templates → per-tenant leaves. Customer-specific overrides extend a template via an <code>extends:</code> chain, resolved at deploy time. Product changes propagate to the fleet without forks.</li>
 
