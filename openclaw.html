@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenClaw — Agent Harness · Harry Trippel</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="writeup">
+  <main class="container">
+
+    <a href="index.html" class="backlink">Harry Trippel</a>
+
+    <h1>OpenClaw</h1>
+    <p class="headline">Proprietary agent harness. Powers every production tenant of deflation.ai.</p>
+
+    <p class="lead">
+      Harness engineering is the load-bearing layer for production tool-use. The model is a function;
+      the harness is everything around it that has to be true for the output to be safe to act on.
+      OpenClaw is the harness I built for that, and it's the one running my paying customers' bots.
+    </p>
+
+    <h2>The execution loop</h2>
+
+    <div class="diagram">
+<pre>
+   ┌────────────────────────────────────────────────────────┐
+   │   inbound event   (channel: email / sms / voice / IM)  │
+   └────────────────────────┬───────────────────────────────┘
+                            ▼
+                    ┌───────────────┐
+                    │  context load │   ← tenant state, history, KB slice
+                    └───────┬───────┘
+                            ▼
+                    ┌───────────────┐
+                    │  model call   │   ← via LLM gateway (budget check)
+                    └───────┬───────┘
+                            ▼
+                    ┌───────────────┐
+                    │ output guard  │   layer 1 — direct parse
+                    └───────┬───────┘
+                            │ ✗
+                            ▼
+                    ┌───────────────┐
+                    │ fence extract │   layer 2 — markdown-fence repair
+                    └───────┬───────┘
+                            │ ✗
+                            ▼
+                    ┌───────────────┐
+                    │  LLM replay   │   layer 3 — cache-aware self-repair
+                    └───────┬───────┘   (~1-2% of original call cost)
+                            │ ✗
+                            ▼
+                    ┌───────────────┐
+                    │ invariant gate│   layer 4 — schema + semantic checks
+                    └───────┬───────┘
+                            │ ✗ → graceful degrade · log · escalate
+                            ▼
+                    ┌───────────────┐
+                    │  tool dispatch│   bounded retry, scoped credentials
+                    └───────┬───────┘
+                            ▼
+                       persist + reply
+</pre>
+    </div>
+
+    <h2>Design principles</h2>
+
+    <ul>
+      <li><strong>Repair is cheaper than rejection.</strong> Most LLM failures are recoverable. The harness replays the original conversation with a correction prompt appended — because the system prompt + user message are identical to the original call, <strong>prompt caching makes repairs cost ≈1–2% of the original call</strong>. Rejection is a last resort.</li>
+
+      <li><strong>Layered correction, not retry.</strong> Four distinct repair layers, each with a different cost and a different failure surface: direct parse → markdown-fence extraction → cache-aware LLM self-repair → invariant validation. Non-recursive — layer 4 doesn't call layer 1 with LLM fallback enabled, so the system can't loop.</li>
+
+      <li><strong>Agent-agnostic primitives.</strong> No agent-specific logic in the harness. Repair functions work for any tenant's agent because the contract is at the schema layer.</li>
+
+      <li><strong>Graceful degradation.</strong> If every repair fails, the harness preserves the original result, logs the failure, and continues. It never crashes the bot. A live customer interaction never goes dark.</li>
+
+      <li><strong>Tool use with bounded retry.</strong> Tool dispatch has its own retry budget, scoped credentials, and structured output expectations.</li>
+
+      <li><strong>Compositionality-aware.</strong> The same primitives compose cleanly across product templates and per-tenant leaves. A tax tenant and a real-estate tenant don't run different harnesses — they run the same harness with different KB and skill layers.</li>
+
+      <li><strong>Observability is first-class.</strong> Every layer emits structured trace telemetry. A failure mode that surfaces in production becomes a regression test the next morning.</li>
+    </ul>
+
+    <h2>Where it runs</h2>
+
+    <p>
+      Every <a href="deflation.html">deflation.ai</a> tenant runs OpenClaw. Tenants are isolated as Linux users
+      on Hetzner VPS instances; each holds zero external credentials and talks only to the LLM gateway.
+      The harness also drives <a href="miningalpha.html">MiningAlpha</a>'s analyst-tier agents, where the same
+      repair patterns recover malformed structured output from foundation models routed across four providers.
+    </p>
+
+    <div class="stack">
+      <span class="stack-label">stack</span>
+      Python · prompt-cache-aware repair · structured outputs · tool use / function calling · multi-tenant isolation
+    </div>
+
+    <footer>
+      <a href="index.html">← Harry Trippel</a>
+      <a href="deflation.html">deflation.ai</a>
+      <a href="miningalpha.html">MiningAlpha</a>
+      <a href="resume.html">Resume</a>
+    </footer>
+
+  </main>
+</body>
+</html>

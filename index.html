@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Harry Trippel — AI Platform Engineer</title>
+  <meta name="description" content="AI platform engineer building production agentic infrastructure. Founder of deflation.ai. Previously shipped Solidity securing $1B+ TVL at Infrared Finance.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="container">
+
+    <h1>Harry Trippel</h1>
+    <p class="headline">AI Platform Engineer · Agentic Infrastructure · Production LLM Systems</p>
+
+    <p class="meta">
+      <span>Walchwil / Zug, Switzerland</span>
+      <span class="sep">·</span>
+      <span><a href="mailto:harrytrippel@gmx.de">harrytrippel@gmx.de</a></span>
+      <span class="sep">·</span>
+      <span><a href="https://github.com/HarryTgerman">GitHub</a></span>
+      <span class="sep">·</span>
+      <span><a href="resume.html">Resume</a></span>
+    </p>
+
+    <p class="lead">
+      AI platform engineer building production agentic infrastructure end-to-end.
+      Currently founder of <a href="deflation.html" class="no-underline" style="text-decoration: underline; text-decoration-color: #444;">deflation.ai</a> — a multi-tenant agentic platform with paying customers,
+      built on a proprietary tool-use agent harness, an LLM gateway with per-tenant inference-budget enforcement,
+      omnichannel agent interfaces, and a custom Model Context Protocol server. Also operating
+      <a href="miningalpha.html" class="no-underline" style="text-decoration: underline; text-decoration-color: #444;">MiningAlpha</a> — a hierarchical multi-agent LLM system over a 300+ company evaluation universe.
+      Most recently shipped Solidity contracts securing <strong>$1B+ TVL</strong> at Infrared Finance.
+    </p>
+
+    <h2>Selected Systems</h2>
+
+    <article class="system">
+      <header class="system-header">
+        <h3 class="system-title">deflation.ai</h3>
+        <span class="system-status">live · paying customers</span>
+      </header>
+      <p class="system-tagline">Multi-tenant agentic platform. End-to-end ownership.</p>
+      <ul>
+        <li><strong>Proprietary agent harness</strong> — tool-augmented LLM execution loop with structured-output enforcement, multi-layer reflection-based self-correction, cache-aware repair, graceful degradation.</li>
+        <li><strong>Agent compositionality framework</strong> — inheritance-based composition (base primitives → product templates → per-tenant leaves) with deploy-time materialization.</li>
+        <li><strong>LLM gateway with per-tenant inference-budget enforcement</strong> — all external API calls proxied; HTTP-protocol-level rejection of out-of-budget calls; tenants hold zero external credentials.</li>
+        <li><strong>Omnichannel agent interfaces</strong> unified through tenant-scoped behavioral interaction telemetry.</li>
+        <li><strong>Custom Model Context Protocol server</strong> exposing operator workflows to agent-assisted IDEs.</li>
+        <li><strong>Continuous agent deployment</strong> via manifest-delta synchronization across the tenant fleet.</li>
+      </ul>
+      <a href="deflation.html" class="system-link">Architecture deep-dive</a>
+    </article>
+
+    <article class="system">
+      <header class="system-header">
+        <h3 class="system-title">MiningAlpha</h3>
+        <span class="system-status">production</span>
+      </header>
+      <p class="system-tagline">Hierarchical multi-agent LLM system over a 300+ company evaluation universe.</p>
+      <ul>
+        <li><strong>Hierarchical agent system</strong> with specialized analyst agents and knowledge-base-driven capability domains; context-isolated sub-agents.</li>
+        <li><strong>Multi-LLM routing layer</strong> across Anthropic, OpenAI, Google, and DeepSeek foundation models, driven by capability evaluations per pipeline stage.</li>
+        <li><strong>DAG-based agent orchestration</strong> with explicit dependency resolution and stage-conditional weighting in synthesis.</li>
+        <li><strong>Reflection-based self-correction</strong> with cache-aware LLM repair (repair cost ≈1–2% of original call via prompt-cache replay).</li>
+        <li><strong>Retrieval-augmented agents with gap-targeted retrieval</strong> — 30–50% retrieval reduction per run.</li>
+        <li><strong>Production inference observability</strong> — error capture, structured run telemetry, post-run persistence validation.</li>
+      </ul>
+      <a href="miningalpha.html" class="system-link">Architecture deep-dive</a>
+    </article>
+
+    <article class="system">
+      <header class="system-header">
+        <h3 class="system-title">OpenClaw</h3>
+        <span class="system-status">load-bearing</span>
+      </header>
+      <p class="system-tagline">Proprietary agent harness powering every production tenant of deflation.ai.</p>
+      <ul>
+        <li><strong>Tool-use execution loop</strong> with bounded retry and structured-output enforcement.</li>
+        <li><strong>Multi-layer reflection-based self-correction</strong> — output validation → fence extraction → cache-aware LLM repair → invariant validation.</li>
+        <li><strong>Cache-aware repair patterns</strong> reducing correction cost to ≈1–2% of original call via prompt-cache replay.</li>
+        <li><strong>Agent-agnostic repair primitives</strong>, non-recursive control flow, graceful degradation — never crashes the bot.</li>
+        <li><strong>Compositionality-aware</strong> — same primitives compose across product templates and per-tenant leaves.</li>
+      </ul>
+      <a href="openclaw.html" class="system-link">Harness deep-dive</a>
+    </article>
+
+    <h2>Smart Contracts at Scale</h2>
+
+    <ul class="system" style="border-top: none; padding-top: 0; margin-top: 0;">
+      <li><strong>Infrared Finance</strong> — Designed and shipped core protocol Solidity securing <strong>$1B+ TVL</strong> on Berachain mainnet. EIP-2535 Diamond / EIP-173 upgradability, MEV-aware design, external audits, continuous adversarial pressure. Jan 2024 – May 2026.</li>
+      <li><strong>Gelato Network</strong> — Lead developer / product owner of the Uniswap Limit Orders product. End-to-end ownership of contracts, backend, indexer, SDK. Onboarded Pancakeswap and other partner integrations. Oct 2021 – Jun 2023.</li>
+      <li><strong>Y2K Finance</strong> — Solidity engineering on novel DeFi structured-product / risk-tranching primitives. Jul 2023 – Dec 2023.</li>
+    </ul>
+
+    <h2>Experience</h2>
+
+    <ul class="xp">
+      <li>
+        <span class="role"><strong>deflation.ai</strong> — Founder &amp; Lead Engineer</span>
+        <span class="dates">2025 – Present</span>
+      </li>
+      <li>
+        <span class="role"><strong>Infrared Finance</strong> — Smart Contract Engineer</span>
+        <span class="dates">Jan 2024 – May 2026</span>
+      </li>
+      <li>
+        <span class="role"><strong>Y2K Finance</strong> — Smart Contract Engineer</span>
+        <span class="dates">Jul 2023 – Dec 2023</span>
+      </li>
+      <li>
+        <span class="role"><strong>Gelato Network</strong> — Lead Developer, Uniswap Limit Orders</span>
+        <span class="dates">Oct 2021 – Jun 2023</span>
+      </li>
+      <li>
+        <span class="role"><strong>Ringier AG</strong> — Full-stack Developer</span>
+        <span class="dates">Oct 2020 – Dec 2021</span>
+        <span class="note">React / React-Native / Node monorepo at millions-of-MAU scale.</span>
+      </li>
+      <li>
+        <span class="role"><strong>MySoftwareScout GmbH</strong> — CTO &amp; Co-Founder (exited)</span>
+        <span class="dates">Apr 2019 – Jul 2020</span>
+        <span class="note">APX Berlin accelerator Q1 2020.</span>
+      </li>
+      <li>
+        <span class="role"><strong>Freelance Developer</strong> — Frankfurt</span>
+        <span class="dates">Jun 2018 – Apr 2019</span>
+      </li>
+    </ul>
+
+    <h2>Core Competencies</h2>
+
+    <div class="comp">
+      <h3>Agentic AI Infrastructure</h3>
+      <p>Multi-tenant agentic platforms · Agent harness engineering · Compound AI systems · Hierarchical agent orchestration · Tool-augmented LLMs · Model Context Protocol (MCP) · Agent compositionality</p>
+
+      <h3>Production LLM Systems</h3>
+      <p>LLM gateways / inference proxies · Multi-LLM routing · Capability evaluations · Eval-driven model selection · Reflection-based self-correction · Cache-aware repair · Retrieval-augmented agents · Inference observability · Inference economics · Per-tenant budget enforcement · Behavioral telemetry</p>
+
+      <h3>Production Smart Contracts</h3>
+      <p>EVM · EIP-2535 Diamond · EIP-173 · MEV-aware design · External-audit deployments · $1B+ TVL mainnet</p>
+    </div>
+
+    <h2>Education</h2>
+
+    <p>
+      <strong>CODE University of Applied Sciences</strong> — B.S. Software Engineering, Berlin, 2018 – 2022
+    </p>
+
+    <footer>
+      <a href="mailto:harrytrippel@gmx.de">harrytrippel@gmx.de</a>
+      <a href="https://github.com/HarryTgerman">github.com/HarryTgerman</a>
+      <a href="resume.html">Resume</a>
+      <a href="Harry-Trippel-Resume.pdf">PDF</a>
+    </footer>
+
+  </main>
+</body>
+</html>

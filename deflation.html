@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>deflation.ai — Multi-Tenant Agentic Platform · Harry Trippel</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="writeup">
+  <main class="container">
+
+    <a href="index.html" class="backlink">Harry Trippel</a>
+
+    <h1>deflation.ai</h1>
+    <p class="headline">Multi-tenant agentic platform. End-to-end ownership.</p>
+
+    <p class="lead">
+      A production agentic platform serving paying customers across vertical-specific agent products
+      (tax/bookkeeping, sales/back-office, real-estate, video/media, internal operations).
+      Live at <a href="https://deflation.ai">deflation.ai</a> and <a href="https://console.deflation.ai">console.deflation.ai</a>.
+    </p>
+
+    <p>
+      The architecture below is what separates a demo from a system you can charge for.
+      Multi-tenant isolation, per-tenant inference-budget enforcement at the gateway,
+      omnichannel I/O, a compositional agent fabric, and a continuous-deployment story
+      that's measured in zero LLM tokens when nothing has changed.
+    </p>
+
+    <h2>Architecture</h2>
+
+    <div class="diagram">
+<pre>
+            ┌──────────────────────────────────────────────────┐
+            │           TENANT FLEET  ·  Hetzner VPS           │
+            │   ┌─────────┐  ┌─────────┐  ┌─────────┐          │
+            │   │ tenant₁ │  │ tenant₂ │  │ tenant₃ │  · · ·   │
+            │   │ OpenClaw│  │ OpenClaw│  │ OpenClaw│          │
+            │   └────┬────┘  └────┬────┘  └────┬────┘          │
+            └────────┼─────────────┼─────────────┼─────────────┘
+                     │             │             │ HTTPS · bearer token
+                     ▼             ▼             ▼
+            ┌──────────────────────────────────────────────────┐
+            │   LLM GATEWAY  ·  FastAPI + Neon Postgres        │
+            │   · authenticate (bearer)                        │
+            │   · per-tenant inference budget check  ·  HTTP 402│
+            │   · proxy → foundation models / SMS / email / TTS│
+            │   · meter usage + persist telemetry               │
+            └─────┬──────────┬──────────┬──────────┬───────────┘
+                  ▼          ▼          ▼          ▼
+              foundation-  Twilio    Resend    Cloudflare
+              model APIs   (SMS/v)   (email)   (KV/R2/email)
+
+            ┌──────────────────────────────────────────────────┐
+            │   COMPOSITION  ·  agents/_base → product → tenant│
+            │   continuous deployment via manifest-delta sync   │
+            └──────────────────────────────────────────────────┘
+</pre>
+    </div>
+
+    <h2>How it works</h2>
+
+    <ul>
+      <li><strong>Proprietary agent harness (OpenClaw).</strong> Tool-augmented LLM execution loop with structured-output enforcement, multi-layer reflection-based self-correction, cache-aware repair, and graceful degradation. Powers every production tenant. <a href="openclaw.html">Deep-dive</a>.</li>
+
+      <li><strong>Agent compositionality framework.</strong> Inheritance-based agent composition: base primitives → product templates → per-tenant leaves. Customer-specific overrides extend a template via an <code>extends:</code> chain, resolved at deploy time. Product changes propagate to the fleet without forks.</li>
+
+      <li><strong>LLM gateway with per-tenant inference-budget enforcement.</strong> All external API calls (foundation models, SMS, voice, email) proxied through a hardened FastAPI middleware on Railway. Authentication is bearer-token per tenant. Every request debits a prepaid wallet (deterministic Python, not LLM-trusted). <code>require_budget</code> rejects out-of-budget calls at HTTP-protocol level with <strong>402 Payment Required</strong>. Tenants hold zero external credentials — prompt injection cannot exfiltrate API keys.</li>
+
+      <li><strong>Omnichannel agent interfaces.</strong> Production-grade integration across email (Resend with DKIM/SPF), SMS and voice (Twilio), and IM (Telegram, per-tenant bots paired via rotating codes from the tenant dashboard). All channels unified through a tenant-scoped behavioral interaction telemetry layer used for monitoring, debugging, and product analytics.</li>
+
+      <li><strong>Custom Model Context Protocol (MCP) server.</strong> Exposes the platform's operator workflows to agent-assisted IDEs — tickets, status, dispatch — so operations themselves run agentically.</li>
+
+      <li><strong>Continuous agent deployment.</strong> Push to <code>main</code> <em>is</em> the release. The gateway shallow-clones the monorepo every 5 min. Deployed tenants run a nightly sync agent that polls per-layer manifest endpoints with their local SHAs; only changed files are fetched and composed. Up-to-date tenants resync in zero bytes and zero LLM tokens.</li>
+
+      <li><strong>Multi-tenant isolation.</strong> Per-tenant Linux users on shared Hetzner VPS, per-tenant scoped credentials for object storage (Cloudflare R2), per-tenant prepaid wallets at the gateway, per-tenant Telegram bot pairings.</li>
+
+      <li><strong>Production observability.</strong> Per-tenant interaction timeline, structured trace telemetry, error capture (Sentry), usage analytics, post-deployment validation.</li>
+    </ul>
+
+    <h2>Surfaces operators see</h2>
+
+    <ul>
+      <li><strong>Admin dashboard</strong> (Vercel) — assign tenants, email-invite flows with claim-code rotation, Telegram bot registration, manual credit operations.</li>
+      <li><strong>Tenant dashboard</strong> (Vercel) — Clerk authentication, Paddle top-ups credited via webhook to the wallet, channel toggles, Telegram pairing UX, messages timeline.</li>
+    </ul>
+
+    <div class="stack">
+      <span class="stack-label">stack</span>
+      Python · FastAPI · Railway · Cloudflare Workers · KV · R2 · Neon Postgres · Supabase Storage · Vercel · Next.js · Clerk · Paddle · Twilio · Resend · OpenRouter · Anthropic Claude · OpenAI · Telegram Bot API · MCP · Hetzner VPS · Sentry · TypeScript
+    </div>
+
+    <footer>
+      <a href="index.html">← Harry Trippel</a>
+      <a href="openclaw.html">OpenClaw</a>
+      <a href="miningalpha.html">MiningAlpha</a>
+      <a href="resume.html">Resume</a>
+    </footer>
+
+  </main>
+</body>
+</html>

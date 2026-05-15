@@ -1,0 +1,21 @@
+# PDFs — keep generated resume PDF local-only per repo policy
+*.pdf
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor noise
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (in case of future tooling)
+node_modules/
+.npm/
+
+# Logs
+*.log

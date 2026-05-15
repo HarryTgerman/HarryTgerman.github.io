@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MiningAlpha — Multi-Agent LLM System · Harry Trippel</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="writeup">
+  <main class="container">
+
+    <a href="index.html" class="backlink">Harry Trippel</a>
+
+    <h1>MiningAlpha</h1>
+    <p class="headline">Production multi-agent LLM system over a 300+ company evaluation universe.</p>
+
+    <p class="lead">
+      A hierarchical multi-agent system that performs structured analysis across six analyst dimensions
+      (geology, technical, financial, jurisdiction, management, valuation) for a 300+ company production
+      universe. End-to-end ownership: architecture, agents, multi-LLM routing, retrieval, observability,
+      frontend.
+    </p>
+
+    <p>
+      The system exists because eval-driven iteration demanded it: every architectural choice is the
+      answer to a specific measurement. Multi-provider routing, gap-targeted retrieval, reflection-based
+      self-correction, and per-stage capability evaluation aren't aesthetic preferences — they're
+      consequences of "the cheap model degraded accuracy here" and "this stage didn't need retrieval at all."
+    </p>
+
+    <h2>Architecture</h2>
+
+    <div class="diagram">
+<pre>
+   ┌──────────────────────────────────────────────────────────┐
+   │  PRE-FETCH      auto-discover primary sources             │
+   └────────────────────────────┬─────────────────────────────┘
+                                ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  T0 · profiling           entity discovery + roster        │
+   └────────────────────────────┬─────────────────────────────┘
+                                ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  T1 · parallel analyst tier  (per-entity fan-out)          │
+   │                                                          │
+   │     geology · technical · jurisdiction                    │
+   │     financial · management                                │
+   │                                                          │
+   │   each agent:  scope → filter → analyze → self-repair      │
+   └────────────────────────────┬─────────────────────────────┘
+                                ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  T2 · valuation             synthesis-only                │
+   │  T3 · aggregation           stage-conditional weights,    │
+   │                             gates, cross-dim penalties    │
+   └────────────────────────────┬─────────────────────────────┘
+                                ▼
+                          structured output
+                          + observability
+</pre>
+    </div>
+
+    <h2>How it works</h2>
+
+    <ul>
+      <li><strong>Hierarchical agent system</strong> with specialized analyst agents and knowledge-base-driven capability domains. Each agent runs on a KB slice scoped to its dimension; sub-agents within an agent are context-isolated against domain-specific slices. Agents are discovered dynamically from KB filenames — adding a new analyst dimension is a KB file, not a code change.</li>
+
+      <li><strong>Multi-LLM routing layer</strong> across Anthropic, OpenAI, Google, and DeepSeek foundation models. <strong>Eval-driven model selection per pipeline stage</strong>: every stage has measured cost and accuracy benchmarks across providers; the routing reflects what won. Cheaper models lose on scoping (entity confusion, junk retrieval); Gemini-class flash models win on extraction; rule-following synthesis goes to GPT-5 Mini; quality-ceiling reasoning goes to Sonnet 4.6. Defaults are documented in the codebase, not folk knowledge.</li>
+
+      <li><strong>DAG-based agent orchestration</strong> with explicit dependency resolution. T0 profiling discovers the entities and management roster. T1 fans out parallel analyst agents per entity (an N-entity company fans out into N×3 per-entity agents + company-level agents). T2 and T3 are synthesis-only — no retrieval, just structured reasoning over upstream agent outputs.</li>
+
+      <li><strong>Reflection-based self-correction</strong> with cache-aware LLM repair: structured-output validation → fence extraction → cache-aware LLM replay → invariant validation → persistence gate. Repair cost ≈1–2% of original call via prompt-cache replay. Same primitives as the <a href="openclaw.html">OpenClaw</a> harness.</li>
+
+      <li><strong>Retrieval-augmented agents with gap-targeted retrieval.</strong> Agents pre-extract from auto-discovered primary sources (investor presentations, filings). The retrieval layer then queries <em>only</em> for missing fields — 30–50% retrieval reduction per run. The agents pay the price of what they actually need to learn, nothing more.</li>
+
+      <li><strong>Synthesis-only agents.</strong> Valuation and aggregation skip retrieval entirely — they run analyzers directly on prior agent outputs plus injected market data. Saves a full retrieval pass per run and avoids context pollution.</li>
+
+      <li><strong>Aggregation with structure.</strong> The top-of-pipeline aggregator applies stage-conditional weight profiles, gate conditions (hard score caps when critical dimensions fail), and cross-dimension penalties / bonuses. The weights aren't constants in code — they're in a KB, evolvable without redeployment.</li>
+
+      <li><strong>Inference economics.</strong> Per-provider timeouts (300s LLM hard cap), wall-clock retry budgets (600–900s per provider), sparse-mode filter protections (don't filter aggressively when sources are scarce), retrieval-bundle caching with explicit reuse flags. Per-agent unit costs in low cents.</li>
+
+      <li><strong>Production inference observability.</strong> Sentry integration, structured run-summary events with per-run error counts, post-run persistence validation that the database actually reflects what the agents produced.</li>
+    </ul>
+
+    <h2>Surfaces</h2>
+
+    <p>
+      A Next.js frontend (App Router · Tailwind · shadcn/ui · Recharts) renders the analyst output:
+      a screener with sortable sparklines, company detail pages with score bars and executive summaries,
+      per-entity pages with mini-maps and per-dimension assessments. Multi-currency support.
+    </p>
+
+    <div class="stack">
+      <span class="stack-label">stack</span>
+      Python · LiteLLM · Anthropic Claude · OpenAI GPT-5 · Google Gemini · DeepSeek · Neon Postgres · Supabase Storage CDN · Sentry · Playwright · Nominatim · Next.js · TypeScript · Tailwind
+    </div>
+
+    <footer>
+      <a href="index.html">← Harry Trippel</a>
+      <a href="deflation.html">deflation.ai</a>
+      <a href="openclaw.html">OpenClaw</a>
+      <a href="resume.html">Resume</a>
+    </footer>
+
+  </main>
+</body>
+</html>
