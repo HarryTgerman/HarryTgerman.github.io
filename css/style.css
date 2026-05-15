@@ -358,6 +358,7 @@ footer a:hover { color: #e8e8e8; }
   .resume .role-line strong { color: #000 !important; }
   .resume .role-line .dates { color: #777 !important; font-size: 7.5pt; }
   .resume .role-line .desc { color: #444 !important; font-size: 8.5pt; }
+  .resume .role-line { page-break-inside: avoid; break-inside: avoid; margin-bottom: 4pt; }
 
   .comp h3 { color: #555 !important; font-size: 7.5pt; margin-top: 8pt; }
   .comp p { color: #2a2a2a !important; font-size: 8.5pt; }
